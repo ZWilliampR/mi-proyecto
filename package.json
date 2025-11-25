@@ -1,0 +1,25 @@
+{
+  "name": "familyintegralapi",
+  "version": "1.0.0",
+  "description": "Este repositorio fue creado como parte de la práctica de control de versiones.",
+  "main": "functions.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZWilliampR/mi-proyecto.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ZWilliampR/mi-proyecto/issues"
+  },
+  "homepage": "https://github.com/ZWilliampR/mi-proyecto#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
