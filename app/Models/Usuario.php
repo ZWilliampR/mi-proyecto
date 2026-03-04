@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,9 +26,9 @@ class Usuario extends Authenticatable
         'id_socio_costamed',
         'titular_id',
         'membresia_activa',
-        'google_access_token',          
-        'google_refresh_token',         
-        'google_token_expires_at',      
+        'google_access_token',
+        'google_refresh_token',
+        'google_token_expires_at',
     ];
 
     protected $hidden = [

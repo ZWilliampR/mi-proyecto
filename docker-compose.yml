@@ -1,0 +1,95 @@
+services:
+
+  # ----------------------------------------------------------
+  # APP — Laravel 11 con PHP 8.2 + Apache
+  # ----------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: family_integral_app
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    environment:
+      APP_NAME: FamilyIntegralAPI
+      APP_ENV: local
+      APP_KEY: base64:3jihBRPNcepkZ46+4fb3+vHjK8VlNkVPSeuOkZQTi2U=
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8000
+      APP_TIMEZONE: America/Cancun
+      APP_LOCALE: es
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: family_integral
+      DB_USERNAME: root
+      DB_PASSWORD: ""
+      SESSION_DRIVER: file
+      CACHE_STORE: file
+      QUEUE_CONNECTION: sync
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor
+      - storage_data:/var/www/html/storage
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - family_network
+
+  # ----------------------------------------------------------
+  # DB — MySQL 8.0
+  # ----------------------------------------------------------
+  db:
+    image: mysql:8.0
+    container_name: family_integral_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: family_integral
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: ""
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - family_network
+
+  # ----------------------------------------------------------
+  # PHPMYADMIN
+  # ----------------------------------------------------------
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: family_integral_pma
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ""
+    depends_on:
+      - db
+    networks:
+      - family_network
+
+# ----------------------------------------------------------
+# VOLÚMENES
+# ----------------------------------------------------------
+volumes:
+  mysql_data:
+  storage_data:
+
+# ----------------------------------------------------------
+# REDES
+# ----------------------------------------------------------
+networks:
+  family_network:
+    driver: bridge

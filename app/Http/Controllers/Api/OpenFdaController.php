@@ -16,13 +16,13 @@ class OpenFdaController extends Controller
         try {
             $nombreMedicamento = $request->input('nombre');
 
-            if (!$nombreMedicamento) {
+            if (! $nombreMedicamento) {
                 return response()->json(['error' => 'El nombre del medicamento es requerido'], 400);
             }
 
             $response = Http::get("{$this->baseUrl}/label.json", [
-                'search' => 'openfda.brand_name:"' . $nombreMedicamento . '" OR openfda.generic_name:"' . $nombreMedicamento . '"',
-                'limit' => 1
+                'search' => 'openfda.brand_name:"'.$nombreMedicamento.'" OR openfda.generic_name:"'.$nombreMedicamento.'"',
+                'limit' => 1,
             ]);
 
             if ($response->failed()) {
@@ -34,7 +34,7 @@ class OpenFdaController extends Controller
             if (empty($data['results'])) {
                 return response()->json([
                     'message' => 'Medicamento no encontrado en la base de datos de la FDA',
-                    'nombre_buscado' => $nombreMedicamento
+                    'nombre_buscado' => $nombreMedicamento,
                 ], 404);
             }
 
@@ -57,13 +57,13 @@ class OpenFdaController extends Controller
 
             return response()->json([
                 'message' => 'Medicamento encontrado',
-                'medicamento' => $info
+                'medicamento' => $info,
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al buscar medicamento',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
@@ -74,7 +74,7 @@ class OpenFdaController extends Controller
         try {
             $medicamentos = $request->input('medicamentos'); // Array de nombres
 
-            if (!is_array($medicamentos) || count($medicamentos) < 2) {
+            if (! is_array($medicamentos) || count($medicamentos) < 2) {
                 return response()->json(['error' => 'Debes proporcionar al menos 2 medicamentos'], 400);
             }
 
@@ -82,16 +82,16 @@ class OpenFdaController extends Controller
 
             foreach ($medicamentos as $medicamento) {
                 $response = Http::get("{$this->baseUrl}/label.json", [
-                    'search' => 'openfda.brand_name:"' . $medicamento . '"',
-                    'limit' => 1
+                    'search' => 'openfda.brand_name:"'.$medicamento.'"',
+                    'limit' => 1,
                 ]);
 
                 if ($response->successful()) {
                     $data = $response->json();
-                    if (!empty($data['results'])) {
+                    if (! empty($data['results'])) {
                         $interacciones[$medicamento] = [
                             'nombre' => $medicamento,
-                            'interacciones_conocidas' => $data['results'][0]['drug_interactions'][0] ?? 'No disponible'
+                            'interacciones_conocidas' => $data['results'][0]['drug_interactions'][0] ?? 'No disponible',
                         ];
                     }
                 }
@@ -101,13 +101,13 @@ class OpenFdaController extends Controller
                 'message' => 'Análisis de interacciones completado',
                 'medicamentos_analizados' => $medicamentos,
                 'resultados' => $interacciones,
-                'recomendacion' => 'Consulta con tu médico antes de combinar estos medicamentos'
+                'recomendacion' => 'Consulta con tu médico antes de combinar estos medicamentos',
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al verificar interacciones',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
@@ -118,13 +118,13 @@ class OpenFdaController extends Controller
         try {
             $nombreMedicamento = $request->input('nombre');
 
-            if (!$nombreMedicamento) {
+            if (! $nombreMedicamento) {
                 return response()->json(['error' => 'El nombre del medicamento es requerido'], 400);
             }
 
             $response = Http::get("{$this->baseUrl}/event.json", [
-                'search' => 'patient.drug.openfda.brand_name:"' . $nombreMedicamento . '"',
-                'limit' => 10
+                'search' => 'patient.drug.openfda.brand_name:"'.$nombreMedicamento.'"',
+                'limit' => 10,
             ]);
 
             if ($response->failed()) {
@@ -136,7 +136,7 @@ class OpenFdaController extends Controller
             if (empty($data['results'])) {
                 return response()->json([
                     'message' => 'No se encontraron eventos adversos reportados',
-                    'medicamento' => $nombreMedicamento
+                    'medicamento' => $nombreMedicamento,
                 ], 200);
             }
 
@@ -154,13 +154,13 @@ class OpenFdaController extends Controller
                 'medicamento' => $nombreMedicamento,
                 'total_eventos' => count($eventos),
                 'eventos' => $eventos,
-                'nota' => 'Estos son reportes, no necesariamente comprobados. Consulta con tu médico.'
+                'nota' => 'Estos son reportes, no necesariamente comprobados. Consulta con tu médico.',
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al buscar eventos adversos',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 500);
         }
     }

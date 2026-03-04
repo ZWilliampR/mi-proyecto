@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Usuario;
 use App\Models\LogAcceso;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -57,7 +57,7 @@ class AuthController extends Controller
             ], 201);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al registrar usuario: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al registrar usuario: '.$e->getMessage()], 500);
         }
     }
 
@@ -75,14 +75,14 @@ class AuthController extends Controller
 
         $usuario = Usuario::where('email', $request->email)->first();
 
-        if (!$usuario || !Hash::check($request->password, $usuario->password)) {
+        if (! $usuario || ! Hash::check($request->password, $usuario->password)) {
             // Registrar intento fallido
             $this->registrarLog(null, 'intento_fallido', 'fallido', $request, $request->email);
-            
+
             return response()->json(['message' => 'Credenciales incorrectas'], 401);
         }
 
-        if (!$usuario->membresia_activa) {
+        if (! $usuario->membresia_activa) {
             return response()->json(['message' => 'Membresía inactiva'], 403);
         }
 

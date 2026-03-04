@@ -29,7 +29,7 @@ class VisitaDomiciliariaController extends Controller
     {
         try {
             // Verificar que sea hospital o administrador
-            if (!in_array($request->user()->role_id, [3, 4])) {
+            if (! in_array($request->user()->role_id, [3, 4])) {
                 return response()->json(['error' => 'No autorizado'], 403);
             }
 
@@ -81,7 +81,7 @@ class VisitaDomiciliariaController extends Controller
             ], 201);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear solicitud: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear solicitud: '.$e->getMessage()], 500);
         }
     }
 
@@ -90,6 +90,7 @@ class VisitaDomiciliariaController extends Controller
     {
         try {
             $visita = VisitaDomiciliaria::with(['usuario', 'medico'])->findOrFail($id);
+
             return response()->json($visita, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Visita no encontrada'], 404);
@@ -109,12 +110,12 @@ class VisitaDomiciliariaController extends Controller
 
         try {
             // Verificar que sea hospital o administrador
-            if (!in_array($request->user()->role_id, [3, 4])) {
+            if (! in_array($request->user()->role_id, [3, 4])) {
                 return response()->json(['error' => 'No autorizado'], 403);
             }
 
             $visita = VisitaDomiciliaria::findOrFail($id);
-            
+
             $visita->update([
                 'medico_id' => $request->medico_id,
                 'estado_solicitud' => 'confirmada',
@@ -146,7 +147,7 @@ class VisitaDomiciliariaController extends Controller
 
         try {
             $visita = VisitaDomiciliaria::findOrFail($id);
-            
+
             $data = [
                 'estado_solicitud' => $request->estado_solicitud,
                 'notas_medico' => $request->notas_medico,
@@ -185,7 +186,7 @@ class VisitaDomiciliariaController extends Controller
 
         try {
             $visita = VisitaDomiciliaria::findOrFail($id);
-            
+
             $visita->update([
                 'estado_solicitud' => 'cancelada',
                 'motivo_cancelacion' => $request->motivo_cancelacion,

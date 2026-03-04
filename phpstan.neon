@@ -1,0 +1,10 @@
+parameters:
+    level: 3
+    paths:
+        - app
+    excludePaths:
+        - app/Http/Controllers/Controller.php
+    ignoreErrors:
+        - '#Call to an undefined static method#'
+        - '#Access to an undefined property Illuminate\\Http\\Request#'
+        - '#Call to an undefined method Illuminate\\Contracts\\Auth\\Factory#'

@@ -4,23 +4,23 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Usuario;
+use Carbon\Carbon;
 use Google\Client as GoogleClient;
 use Google\Service\Calendar;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class GoogleCalendarController extends Controller
 {
     private function getClient()
     {
-        $client = new GoogleClient();
+        $client = new GoogleClient;
         $client->setClientId(env('GOOGLE_CLIENT_ID'));
         $client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
         $client->setRedirectUri(env('GOOGLE_REDIRECT_URI'));
         $client->addScope(Calendar::CALENDAR);
         $client->setAccessType('offline');
         $client->setPrompt('consent');
-        
+
         return $client;
     }
 
@@ -32,7 +32,7 @@ class GoogleCalendarController extends Controller
 
         return response()->json([
             'authorization_url' => $authUrl,
-            'message' => 'Abre esta URL en tu navegador para autorizar el acceso a Google Calendar'
+            'message' => 'Abre esta URL en tu navegador para autorizar el acceso a Google Calendar',
         ], 200);
     }
 
@@ -41,8 +41,8 @@ class GoogleCalendarController extends Controller
     {
         try {
             $code = $request->input('code');
-            
-            if (!$code) {
+
+            if (! $code) {
                 return response()->json(['error' => 'Código de autorización no proporcionado'], 400);
             }
 
@@ -53,7 +53,6 @@ class GoogleCalendarController extends Controller
                 return response()->json(['error' => $token['error']], 400);
             }
 
-            // Devolver los tokens para que el usuario los guarde manualmente
             return response()->json([
                 'message' => 'Autorización exitosa. Copia estos tokens y úsalos en el endpoint /api/google/save-tokens',
                 'tokens' => [
@@ -61,13 +60,13 @@ class GoogleCalendarController extends Controller
                     'refresh_token' => $token['refresh_token'] ?? null,
                     'expires_in' => $token['expires_in'] ?? 3600,
                 ],
-                'instrucciones' => 'Llama a POST /api/google/save-tokens con estos tokens y tu Bearer token de autenticación'
+                'instrucciones' => 'Llama a POST /api/google/save-tokens con estos tokens y tu Bearer token de autenticación',
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al conectar con Google Calendar',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
@@ -76,8 +75,9 @@ class GoogleCalendarController extends Controller
     public function saveTokens(Request $request)
     {
         try {
+            /** @var \App\Models\Usuario $usuario */
             $usuario = auth()->user();
-            
+
             $usuario->update([
                 'google_access_token' => json_encode([
                     'access_token' => $request->input('access_token'),
@@ -90,13 +90,13 @@ class GoogleCalendarController extends Controller
 
             return response()->json([
                 'message' => 'Tokens guardados exitosamente. Ahora puedes crear eventos en Google Calendar.',
-                'user' => $usuario
+                'user' => $usuario,
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al guardar tokens',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
@@ -105,24 +105,24 @@ class GoogleCalendarController extends Controller
     public function createEvent(Request $request)
     {
         try {
+            /** @var \App\Models\Usuario $usuario */
             $usuario = auth()->user();
 
-            if (!$usuario->google_access_token) {
+            if (! $usuario->google_access_token) {
                 return response()->json([
                     'error' => 'Debes autorizar Google Calendar primero',
-                    'message' => 'Llama al endpoint /api/google/authorize'
+                    'message' => 'Llama al endpoint /api/google/authorize',
                 ], 401);
             }
 
             $client = $this->getClient();
             $client->setAccessToken(json_decode($usuario->google_access_token, true));
 
-            // Verificar si el token expiró y renovarlo
             if ($client->isAccessTokenExpired()) {
                 if ($usuario->google_refresh_token) {
                     $client->fetchAccessTokenWithRefreshToken($usuario->google_refresh_token);
                     $newToken = $client->getAccessToken();
-                    
+
                     $usuario->update([
                         'google_access_token' => json_encode($newToken),
                         'google_token_expires_at' => Carbon::now()->addSeconds($newToken['expires_in'] ?? 3600),
@@ -134,7 +134,6 @@ class GoogleCalendarController extends Controller
 
             $service = new Calendar($client);
 
-            // Crear evento
             $event = new \Google\Service\Calendar\Event([
                 'summary' => $request->input('titulo'),
                 'description' => $request->input('descripcion'),
@@ -163,13 +162,13 @@ class GoogleCalendarController extends Controller
                     'id' => $event->getId(),
                     'link' => $event->getHtmlLink(),
                     'titulo' => $event->getSummary(),
-                ]
+                ],
             ], 201);
 
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al crear evento',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
@@ -178,9 +177,10 @@ class GoogleCalendarController extends Controller
     public function listEvents(Request $request)
     {
         try {
+            /** @var \App\Models\Usuario $usuario */
             $usuario = auth()->user();
 
-            if (!$usuario->google_access_token) {
+            if (! $usuario->google_access_token) {
                 return response()->json(['error' => 'Debes autorizar Google Calendar primero'], 401);
             }
 
@@ -191,7 +191,7 @@ class GoogleCalendarController extends Controller
                 if ($usuario->google_refresh_token) {
                     $client->fetchAccessTokenWithRefreshToken($usuario->google_refresh_token);
                     $newToken = $client->getAccessToken();
-                    
+
                     $usuario->update([
                         'google_access_token' => json_encode($newToken),
                         'google_token_expires_at' => Carbon::now()->addSeconds($newToken['expires_in'] ?? 3600),
@@ -200,7 +200,7 @@ class GoogleCalendarController extends Controller
             }
 
             $service = new Calendar($client);
-            
+
             $optParams = [
                 'maxResults' => 10,
                 'orderBy' => 'startTime',
@@ -225,13 +225,13 @@ class GoogleCalendarController extends Controller
 
             return response()->json([
                 'total' => count($eventList),
-                'eventos' => $eventList
+                'eventos' => $eventList,
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al obtener eventos',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
@@ -240,8 +240,9 @@ class GoogleCalendarController extends Controller
     public function disconnect(Request $request)
     {
         try {
+            /** @var \App\Models\Usuario $usuario */
             $usuario = auth()->user();
-            
+
             $usuario->update([
                 'google_access_token' => null,
                 'google_refresh_token' => null,

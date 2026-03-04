@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Medicamento;
 use App\Models\RecordatorioMedicamento;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Carbon\Carbon;
 
 class MedicamentoController extends Controller
 {
@@ -16,15 +16,15 @@ class MedicamentoController extends Controller
     {
         try {
             $medicamentos = Medicamento::where('usuario_id', $request->user()->id)
-                    ->orderBy('created_at', 'desc')
-                    ->get();
+                ->orderBy('created_at', 'desc')
+                ->get();
 
             return response()->json($medicamentos, 200);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al obtener medicamentos',
                 'message' => $e->getMessage(),
-                'line' => $e->getLine()
+                'line' => $e->getLine(),
             ], 500);
         }
     }
@@ -73,7 +73,7 @@ class MedicamentoController extends Controller
                 'error' => 'Error al crear medicamento',
                 'message' => $e->getMessage(),
                 'line' => $e->getLine(),
-                'file' => $e->getFile()
+                'file' => $e->getFile(),
             ], 500);
         }
     }
@@ -83,6 +83,7 @@ class MedicamentoController extends Controller
     {
         try {
             $medicamento = Medicamento::with('recordatorios')->findOrFail($id);
+
             return response()->json($medicamento, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Medicamento no encontrado'], 404);
@@ -145,8 +146,8 @@ class MedicamentoController extends Controller
 
         // Parseo simplificado
         $fechaInicio = Carbon::parse($medicamento->fecha_inicio)->setTimeFromTimeString($medicamento->hora_inicio);
-        $fechaFin = $medicamento->fecha_fin 
-            ? Carbon::parse($medicamento->fecha_fin)->endOfDay() 
+        $fechaFin = $medicamento->fecha_fin
+            ? Carbon::parse($medicamento->fecha_fin)->endOfDay()
             : $fechaInicio->copy()->addDays(30);
 
         $fechaActual = $fechaInicio->copy();

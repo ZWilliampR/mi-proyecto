@@ -62,7 +62,7 @@ class ImcController extends Controller
             ], 201);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al calcular IMC: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al calcular IMC: '.$e->getMessage()], 500);
         }
     }
 
@@ -71,6 +71,7 @@ class ImcController extends Controller
     {
         try {
             $registro = ImcRegistro::findOrFail($id);
+
             return response()->json($registro, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Registro no encontrado'], 404);
@@ -115,11 +116,22 @@ class ImcController extends Controller
     // Métodos privados auxiliares
     private function obtenerClasificacion($imc)
     {
-        if ($imc < 18.5) return 'bajo_peso';
-        if ($imc >= 18.5 && $imc < 25) return 'peso_normal';
-        if ($imc >= 25 && $imc < 30) return 'sobrepeso';
-        if ($imc >= 30 && $imc < 35) return 'obesidad_1';
-        if ($imc >= 35 && $imc < 40) return 'obesidad_2';
+        if ($imc < 18.5) {
+            return 'bajo_peso';
+        }
+        if ($imc >= 18.5 && $imc < 25) {
+            return 'peso_normal';
+        }
+        if ($imc >= 25 && $imc < 30) {
+            return 'sobrepeso';
+        }
+        if ($imc >= 30 && $imc < 35) {
+            return 'obesidad_1';
+        }
+        if ($imc >= 35 && $imc < 40) {
+            return 'obesidad_2';
+        }
+
         return 'obesidad_3';
     }
 

@@ -15,6 +15,7 @@ class UsuarioController extends Controller
     {
         try {
             $usuarios = Usuario::with('role')->get();
+
             return response()->json($usuarios, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al obtener usuarios'], 500);
@@ -26,6 +27,7 @@ class UsuarioController extends Controller
     {
         try {
             $usuario = Usuario::with(['role', 'miembrosFamiliares'])->findOrFail($id);
+
             return response()->json($usuario, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Usuario no encontrado'], 404);
@@ -88,7 +90,7 @@ class UsuarioController extends Controller
                 'error' => 'Error al agregar miembro',
                 'message' => $e->getMessage(),
                 'line' => $e->getLine(),
-                'file' => $e->getFile()
+                'file' => $e->getFile(),
             ], 500);
         }
     }
@@ -99,7 +101,7 @@ class UsuarioController extends Controller
         try {
             $titular = $request->user();
             $miembros = Usuario::where('titular_id', $titular->id)->get();
-            
+
             return response()->json([
                 'total' => $miembros->count(),
                 'limite' => 3,
@@ -112,7 +114,7 @@ class UsuarioController extends Controller
                 'error' => 'Error al obtener miembros',
                 'message' => $e->getMessage(),
                 'line' => $e->getLine(),
-                'file' => $e->getFile()
+                'file' => $e->getFile(),
             ], 500);
         }
     }

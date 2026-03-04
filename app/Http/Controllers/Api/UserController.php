@@ -13,6 +13,7 @@ class UserController extends Controller
     {
         try {
             $users = User::all();
+
             return response()->json($users, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -26,13 +27,13 @@ class UserController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users',
-                'password' => 'required|min:8'
+                'password' => 'required|min:8',
             ]);
 
             $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
-                'password' => bcrypt($validated['password'])
+                'password' => bcrypt($validated['password']),
             ]);
 
             return response()->json($user, 201);
@@ -46,6 +47,7 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
+
             return response()->json($user, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Usuario no encontrado'], 404);
@@ -57,11 +59,11 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
-            
+
             $validated = $request->validate([
                 'name' => 'sometimes|string|max:255',
                 'email' => 'sometimes|email|unique:users,email,'.$id,
-                'password' => 'sometimes|min:8'
+                'password' => 'sometimes|min:8',
             ]);
 
             if (isset($validated['password'])) {
@@ -69,6 +71,7 @@ class UserController extends Controller
             }
 
             $user->update($validated);
+
             return response()->json($user, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -81,6 +84,7 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
             $user->delete();
+
             return response()->json(['message' => 'Usuario eliminado'], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Usuario no encontrado'], 404);

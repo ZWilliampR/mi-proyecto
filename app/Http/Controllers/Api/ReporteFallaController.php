@@ -75,7 +75,7 @@ class ReporteFallaController extends Controller
             ], 201);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear reporte: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear reporte: '.$e->getMessage()], 500);
         }
     }
 
@@ -84,6 +84,7 @@ class ReporteFallaController extends Controller
     {
         try {
             $reporte = ReporteFalla::with('usuario')->findOrFail($id);
+
             return response()->json($reporte, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Reporte no encontrado'], 404);
@@ -109,7 +110,7 @@ class ReporteFallaController extends Controller
             }
 
             $reporte = ReporteFalla::findOrFail($id);
-            
+
             $data = [
                 'estado' => $request->estado,
                 'respuesta_soporte' => $request->respuesta_soporte,

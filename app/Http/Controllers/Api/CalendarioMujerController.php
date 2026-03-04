@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\CalendarioMujer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Carbon\Carbon;
 
 class CalendarioMujerController extends Controller
 {
@@ -67,7 +67,7 @@ class CalendarioMujerController extends Controller
             ], 201);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear registro: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear registro: '.$e->getMessage()], 500);
         }
     }
 
@@ -79,7 +79,7 @@ class CalendarioMujerController extends Controller
                 ->orderBy('fecha_inicio_periodo', 'desc')
                 ->first();
 
-            if (!$ultimoRegistro) {
+            if (! $ultimoRegistro) {
                 return response()->json(['message' => 'No hay registros previos'], 404);
             }
 

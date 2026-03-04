@@ -58,7 +58,7 @@ class TestSaludController extends Controller
             ], 201);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al guardar test: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al guardar test: '.$e->getMessage()], 500);
         }
     }
 
@@ -67,6 +67,7 @@ class TestSaludController extends Controller
     {
         try {
             $test = TestSalud::findOrFail($id);
+
             return response()->json($test, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Test no encontrado'], 404);
@@ -131,7 +132,7 @@ class TestSaludController extends Controller
     private function calcularEstres($respuestas)
     {
         $puntuacion = array_sum(array_values($respuestas));
-        
+
         if ($puntuacion <= 10) {
             $nivel = 'bajo';
             $interpretacion = 'Tu nivel de estrés es bajo. Continúa con tus hábitos saludables.';
@@ -156,7 +157,7 @@ class TestSaludController extends Controller
     private function calcularApnea($respuestas)
     {
         $puntuacion = array_sum(array_values($respuestas));
-        
+
         if ($puntuacion <= 5) {
             $nivel = 'bajo';
             $interpretacion = 'Bajo riesgo de apnea del sueño.';
@@ -177,7 +178,7 @@ class TestSaludController extends Controller
     private function calcularDepresion($respuestas)
     {
         $puntuacion = array_sum(array_values($respuestas));
-        
+
         if ($puntuacion <= 5) {
             $nivel = 'bajo';
             $interpretacion = 'No se detectan síntomas significativos de depresión.';
@@ -203,7 +204,7 @@ class TestSaludController extends Controller
     {
         $pasos = $respuestas['pasos_diarios'] ?? 0;
         $puntuacion = $pasos;
-        
+
         if ($pasos < 5000) {
             $nivel = 'bajo';
             $interpretacion = 'Actividad física insuficiente.';

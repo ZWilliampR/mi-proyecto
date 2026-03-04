@@ -15,7 +15,7 @@ class ChatController extends Controller
     {
         try {
             $chats = Chat::where('usuario_id', $request->user()->id)
-                ->with(['medico', 'mensajes' => function($query) {
+                ->with(['medico', 'mensajes' => function ($query) {
                     $query->orderBy('created_at', 'desc')->limit(1);
                 }])
                 ->orderBy('updated_at', 'desc')
@@ -59,7 +59,7 @@ class ChatController extends Controller
             ], 201);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear chat: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear chat: '.$e->getMessage()], 500);
         }
     }
 
@@ -68,7 +68,7 @@ class ChatController extends Controller
     {
         try {
             $chat = Chat::with(['mensajes.usuario', 'medico'])->findOrFail($id);
-            
+
             // Marcar mensajes como leídos
             Mensaje::where('chat_id', $id)
                 ->where('usuario_id', '!=', auth()->id())
@@ -143,7 +143,7 @@ class ChatController extends Controller
     {
         try {
             $chat = Chat::findOrFail($id);
-            
+
             $chat->update([
                 'estado' => 'cerrado',
                 'fecha_cierre' => now(),
@@ -165,19 +165,19 @@ class ChatController extends Controller
         try {
             $chats = Chat::where('usuario_id', $request->user()->id)
                 ->where('estado', 'activo')
-                ->with(['mensajes' => function($query) {
+                ->with(['mensajes' => function ($query) {
                     $query->where('usuario_id', '!=', auth()->id())
-                          ->where('leido', false);
+                        ->where('leido', false);
                 }])
                 ->get();
 
-            $totalNoLeidos = $chats->sum(function($chat) {
+            $totalNoLeidos = $chats->sum(function ($chat) {
                 return $chat->mensajes->count();
             });
 
             return response()->json([
                 'total_no_leidos' => $totalNoLeidos,
-                'chats_con_mensajes_nuevos' => $chats->filter(function($chat) {
+                'chats_con_mensajes_nuevos' => $chats->filter(function ($chat) {
                     return $chat->mensajes->count() > 0;
                 })->values(),
             ], 200);

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\RecordatorioMedicamento;
 use App\Models\Medicamento;
-use Illuminate\Http\Request;
+use App\Models\RecordatorioMedicamento;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class RecordatorioMedicamentoController extends Controller
 {
@@ -15,15 +15,15 @@ class RecordatorioMedicamentoController extends Controller
     {
         try {
             $usuarioId = $request->user()->id;
-            
-            $recordatorios = RecordatorioMedicamento::whereHas('medicamento', function($query) use ($usuarioId) {
+
+            $recordatorios = RecordatorioMedicamento::whereHas('medicamento', function ($query) use ($usuarioId) {
                 $query->where('usuario_id', $usuarioId);
             })
-            ->with('medicamento')
-            ->where('estado', 'pendiente')
-            ->where('fecha_hora_recordatorio', '>=', Carbon::now())
-            ->orderBy('fecha_hora_recordatorio', 'asc')
-            ->get();
+                ->with('medicamento')
+                ->where('estado', 'pendiente')
+                ->where('fecha_hora_recordatorio', '>=', Carbon::now())
+                ->orderBy('fecha_hora_recordatorio', 'asc')
+                ->get();
 
             return response()->json($recordatorios, 200);
         } catch (\Exception $e) {
@@ -37,14 +37,14 @@ class RecordatorioMedicamentoController extends Controller
         try {
             $usuarioId = $request->user()->id;
             $hoy = Carbon::today();
-            
-            $recordatorios = RecordatorioMedicamento::whereHas('medicamento', function($query) use ($usuarioId) {
+
+            $recordatorios = RecordatorioMedicamento::whereHas('medicamento', function ($query) use ($usuarioId) {
                 $query->where('usuario_id', $usuarioId);
             })
-            ->with('medicamento')
-            ->whereDate('fecha_hora_recordatorio', $hoy)
-            ->orderBy('fecha_hora_recordatorio', 'asc')
-            ->get();
+                ->with('medicamento')
+                ->whereDate('fecha_hora_recordatorio', $hoy)
+                ->orderBy('fecha_hora_recordatorio', 'asc')
+                ->get();
 
             return response()->json([
                 'fecha' => $hoy->format('Y-m-d'),
@@ -64,7 +64,7 @@ class RecordatorioMedicamentoController extends Controller
     {
         try {
             $recordatorio = RecordatorioMedicamento::findOrFail($id);
-            
+
             $recordatorio->update([
                 'estado' => 'tomado',
                 'fecha_hora_tomado' => Carbon::now(),
@@ -86,7 +86,7 @@ class RecordatorioMedicamentoController extends Controller
     {
         try {
             $recordatorio = RecordatorioMedicamento::findOrFail($id);
-            
+
             $recordatorio->update([
                 'estado' => 'omitido',
                 'notas' => $request->notas ?? null,
@@ -108,22 +108,22 @@ class RecordatorioMedicamentoController extends Controller
         try {
             $usuarioId = $request->user()->id;
             $hace30Dias = Carbon::now()->subDays(30);
-            
-            $recordatorios = RecordatorioMedicamento::whereHas('medicamento', function($query) use ($usuarioId) {
+
+            $recordatorios = RecordatorioMedicamento::whereHas('medicamento', function ($query) use ($usuarioId) {
                 $query->where('usuario_id', $usuarioId);
             })
-            ->with('medicamento')
-            ->where('fecha_hora_recordatorio', '>=', $hace30Dias)
-            ->orderBy('fecha_hora_recordatorio', 'desc')
-            ->get();
+                ->with('medicamento')
+                ->where('fecha_hora_recordatorio', '>=', $hace30Dias)
+                ->orderBy('fecha_hora_recordatorio', 'desc')
+                ->get();
 
             return response()->json([
                 'periodo' => 'Últimos 30 días',
                 'total' => $recordatorios->count(),
                 'tomados' => $recordatorios->where('estado', 'tomado')->count(),
                 'omitidos' => $recordatorios->where('estado', 'omitido')->count(),
-                'adherencia' => $recordatorios->count() > 0 
-                    ? round(($recordatorios->where('estado', 'tomado')->count() / $recordatorios->count()) * 100, 2) 
+                'adherencia' => $recordatorios->count() > 0
+                    ? round(($recordatorios->where('estado', 'tomado')->count() / $recordatorios->count()) * 100, 2)
                     : 0,
                 'recordatorios' => $recordatorios,
             ], 200);

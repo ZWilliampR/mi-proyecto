@@ -1,19 +1,17 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\UsuarioController;
+use App\Http\Controllers\Api\CalendarioMujerController;
+use App\Http\Controllers\Api\ChatController;
+use App\Http\Controllers\Api\GoogleCalendarController;
+use App\Http\Controllers\Api\ImcController;
 use App\Http\Controllers\Api\MedicamentoController;
 use App\Http\Controllers\Api\RecordatorioMedicamentoController;
-use App\Http\Controllers\Api\CalendarioMujerController;
-use App\Http\Controllers\Api\ImcController;
-use App\Http\Controllers\Api\TestSaludController;
-use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\ReporteFallaController;
+use App\Http\Controllers\Api\TestSaludController;
+use App\Http\Controllers\Api\UsuarioController;
 use App\Http\Controllers\Api\VisitaDomiciliariaController;
-use App\Http\Controllers\Api\GoogleCalendarController;
-use App\Http\Controllers\Api\OpenFdaController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +43,7 @@ Route::get('/test', function () {
 // RUTAS PROTEGIDAS (Requieren autenticación)
 // ====================================
 Route::middleware('auth:sanctum')->group(function () {
-    
+
     // ---------- AUTENTICACIÓN ----------
     Route::prefix('auth')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
@@ -58,7 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}', [UsuarioController::class, 'show']);
         Route::put('/{id}', [UsuarioController::class, 'update']);
         Route::delete('/{id}', [UsuarioController::class, 'destroy']);
-        
+
         Route::post('/miembros-familiares', [UsuarioController::class, 'agregarMiembroFamiliar']);
         Route::get('/mis-miembros/lista', [UsuarioController::class, 'miembrosFamiliares']);
     });
@@ -156,6 +154,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/medicamento', [App\Http\Controllers\Api\OpenFdaController::class, 'buscarMedicamento']);
         Route::post('/interacciones', [App\Http\Controllers\Api\OpenFdaController::class, 'verificarInteracciones']);
         Route::get('/eventos-adversos', [App\Http\Controllers\Api\OpenFdaController::class, 'eventosAdversos']);
-    }); 
+    });
 
 });
