@@ -1,59 +1,215 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Family Integral
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![CI](https://img.shields.io/badge/CI-GitHub%20Actions-blue)
+![License](https://img.shields.io/badge/license-Academic-green)
 
-## About Laravel
+Sistema web desarrollado como parte del **Proyecto Integrador** de la asignatura *Gestión del Proceso de Desarrollo de Software*.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+El objetivo del proyecto es implementar una aplicación web utilizando buenas prácticas de ingeniería de software como control de versiones, integración continua y despliegue automatizado.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# Tabla de Contenidos
 
-## Learning Laravel
+* [Descripción](#descripción)
+* [Stack Tecnológico](#stack-tecnológico)
+* [Requisitos](#requisitos)
+* [Instalación](#instalación)
+* [Ejecución](#ejecución)
+* [Tests](#tests)
+* [Estructura del Proyecto](#estructura-del-proyecto)
+* [Variables de Entorno](#variables-de-entorno)
+* [Flujo de Trabajo Git](#flujo-de-trabajo-git)
+* [Contribución](#contribución)
+* [Autores](#autores)
+* [Licencia](#licencia)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Descripción
 
-## Laravel Sponsors
+**Family Integral** es una aplicación web que busca facilitar la gestión de información familiar mediante una interfaz accesible y moderna.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+El proyecto se desarrolla aplicando prácticas profesionales de desarrollo de software como:
 
-### Premium Partners
+* Control de versiones con Git
+* Estrategia de ramas basada en Git Flow
+* Integración continua con GitHub Actions
+* Contenedores con Docker
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+# Stack Tecnológico
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Tecnologías utilizadas en el proyecto:
 
-## Code of Conduct
+Frontend:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* Vite
+* JavaScript
+* TailwindCSS
 
-## Security Vulnerabilities
+Herramientas de desarrollo:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* Node.js
+* Git y GitHub
+* Docker
+* GitHub Actions
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Requisitos
+
+Para ejecutar el proyecto necesitas:
+
+* Node.js 20+
+* npm
+* Git
+* Docker (opcional)
+
+---
+
+# Instalación
+
+Clonar repositorio:
+
+```bash
+git clone https://github.com/TU-USUARIO/TU-REPO.git
+```
+
+Entrar al proyecto:
+
+```bash
+cd mi-proyecto
+```
+
+Instalar dependencias:
+
+```bash
+npm install
+```
+
+---
+
+# Ejecución
+
+Ejecutar en modo desarrollo:
+
+```bash
+npm run dev
+```
+
+Construir versión de producción:
+
+```bash
+npm run build
+```
+
+---
+
+# Tests
+
+Ejecutar pruebas:
+
+```bash
+npm test
+```
+
+Las pruebas también se ejecutan automáticamente mediante **GitHub Actions** en cada Pull Request.
+
+---
+
+# Estructura del Proyecto
+
+```
+project/
+│
+├── .github/
+│   ├── workflows/
+│   │   └── ci.yml
+│   └── PULL_REQUEST_TEMPLATE.md
+│
+├── src/
+│
+├── tests/
+│
+├── .env.example
+├── .gitignore
+├── package.json
+├── README.md
+```
+
+---
+
+# Variables de Entorno
+
+Ejemplo de archivo `.env`:
+
+```
+PORT=3000
+NODE_ENV=development
+API_KEY=example_key
+```
+
+Usa `.env.example` como plantilla.
+
+---
+
+# Flujo de Trabajo Git
+
+El proyecto utiliza un flujo basado en **Git Flow simplificado**.
+
+Ramas principales:
+
+* `main` → producción
+* `develop` → integración
+* `feature/*` → desarrollo de nuevas funcionalidades
+
+Flujo de trabajo:
+
+```
+feature → develop → main
+```
+
+Los cambios se integran mediante **Pull Requests** con validación automática de CI.
+
+---
+
+# Contribución
+
+Proceso para contribuir:
+
+1. Crear rama desde `develop`
+
+```
+git checkout develop
+git checkout -b feature/nueva-feature
+```
+
+2. Hacer commits usando **Conventional Commits**
+
+Ejemplo:
+
+```
+feat(auth): agregar login de usuario
+```
+
+3. Subir cambios
+
+```
+git push origin feature/nueva-feature
+```
+
+4. Crear Pull Request en GitHub.
+
+---
+
+# Autores
+
+Proyecto desarrollado para fines académicos por estudiantes de **Ingeniería en Gestión y Desarrollo de Software**.
+
+---
+
+# Licencia
+
+Este proyecto se desarrolla únicamente con fines educativos.
