@@ -53,6 +53,7 @@ class GoogleCalendarController extends Controller
                 return response()->json(['error' => $token['error']], 400);
             }
 
+            // Devolver los tokens para que el usuario los guarde manualmente
             return response()->json([
                 'message' => 'Autorización exitosa. Copia estos tokens y úsalos en el endpoint /api/google/save-tokens',
                 'tokens' => [
@@ -75,7 +76,6 @@ class GoogleCalendarController extends Controller
     public function saveTokens(Request $request)
     {
         try {
-            /** @var \App\Models\Usuario $usuario */
             $usuario = auth()->user();
 
             $usuario->update([
@@ -105,7 +105,6 @@ class GoogleCalendarController extends Controller
     public function createEvent(Request $request)
     {
         try {
-            /** @var \App\Models\Usuario $usuario */
             $usuario = auth()->user();
 
             if (! $usuario->google_access_token) {
@@ -118,6 +117,7 @@ class GoogleCalendarController extends Controller
             $client = $this->getClient();
             $client->setAccessToken(json_decode($usuario->google_access_token, true));
 
+            // Verificar si el token expiró y renovarlo
             if ($client->isAccessTokenExpired()) {
                 if ($usuario->google_refresh_token) {
                     $client->fetchAccessTokenWithRefreshToken($usuario->google_refresh_token);
@@ -134,6 +134,7 @@ class GoogleCalendarController extends Controller
 
             $service = new Calendar($client);
 
+            // Crear evento
             $event = new \Google\Service\Calendar\Event([
                 'summary' => $request->input('titulo'),
                 'description' => $request->input('descripcion'),
@@ -177,7 +178,6 @@ class GoogleCalendarController extends Controller
     public function listEvents(Request $request)
     {
         try {
-            /** @var \App\Models\Usuario $usuario */
             $usuario = auth()->user();
 
             if (! $usuario->google_access_token) {
@@ -240,7 +240,6 @@ class GoogleCalendarController extends Controller
     public function disconnect(Request $request)
     {
         try {
-            /** @var \App\Models\Usuario $usuario */
             $usuario = auth()->user();
 
             $usuario->update([
