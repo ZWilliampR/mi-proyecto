@@ -21,7 +21,7 @@ class OpenFdaController extends Controller
             }
 
             $response = Http::get("{$this->baseUrl}/label.json", [
-                'search' => 'openfda.brand_name:"'.$nombreMedicamento.'" OR openfda.generic_name:"'.$nombreMedicamento.'"',
+                'search' => 'openfda.brand_name:"' . $nombreMedicamento . '" OR openfda.generic_name:"' . $nombreMedicamento . '"',
                 'limit' => 1,
             ]);
 
@@ -59,7 +59,6 @@ class OpenFdaController extends Controller
                 'message' => 'Medicamento encontrado',
                 'medicamento' => $info,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al buscar medicamento',
@@ -82,7 +81,7 @@ class OpenFdaController extends Controller
 
             foreach ($medicamentos as $medicamento) {
                 $response = Http::get("{$this->baseUrl}/label.json", [
-                    'search' => 'openfda.brand_name:"'.$medicamento.'"',
+                    'search' => 'openfda.brand_name:"' . $medicamento . '"',
                     'limit' => 1,
                 ]);
 
@@ -103,7 +102,6 @@ class OpenFdaController extends Controller
                 'resultados' => $interacciones,
                 'recomendacion' => 'Consulta con tu médico antes de combinar estos medicamentos',
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al verificar interacciones',
@@ -123,7 +121,7 @@ class OpenFdaController extends Controller
             }
 
             $response = Http::get("{$this->baseUrl}/event.json", [
-                'search' => 'patient.drug.openfda.brand_name:"'.$nombreMedicamento.'"',
+                'search' => 'patient.drug.openfda.brand_name:"' . $nombreMedicamento . '"',
                 'limit' => 10,
             ]);
 
@@ -156,7 +154,6 @@ class OpenFdaController extends Controller
                 'eventos' => $eventos,
                 'nota' => 'Estos son reportes, no necesariamente comprobados. Consulta con tu médico.',
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al buscar eventos adversos',

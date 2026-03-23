@@ -65,9 +65,8 @@ class CalendarioMujerController extends Controller
                 'message' => 'Registro creado exitosamente',
                 'registro' => $registro,
             ], 201);
-
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear registro: '.$e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear registro: ' . $e->getMessage()], 500);
         }
     }
 
@@ -97,7 +96,6 @@ class CalendarioMujerController extends Controller
                 'ventana_fertil' => $ventanaFertil,
                 'duracion_ciclo_promedio' => $ultimoRegistro->duracion_ciclo,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al obtener predicción'], 500);
         }
@@ -124,7 +122,6 @@ class CalendarioMujerController extends Controller
                 'message' => 'Registro actualizado exitosamente',
                 'registro' => $registro,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al actualizar registro'], 500);
         }

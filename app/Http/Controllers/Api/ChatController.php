@@ -57,9 +57,8 @@ class ChatController extends Controller
                 'message' => 'Chat creado exitosamente',
                 'chat' => $chat->load('mensajes'),
             ], 201);
-
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear chat: '.$e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear chat: ' . $e->getMessage()], 500);
         }
     }
 
@@ -117,7 +116,6 @@ class ChatController extends Controller
                 'message' => 'Mensaje enviado exitosamente',
                 'mensaje' => $mensaje->load('usuario'),
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al enviar mensaje'], 500);
         }
@@ -153,7 +151,6 @@ class ChatController extends Controller
                 'message' => 'Chat cerrado exitosamente',
                 'chat' => $chat,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al cerrar chat'], 500);
         }
@@ -181,7 +178,6 @@ class ChatController extends Controller
                     return $chat->mensajes->count() > 0;
                 })->values(),
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al obtener mensajes no leídos'], 500);
         }

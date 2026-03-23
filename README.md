@@ -1,59 +1,224 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="300" alt="Laravel Logo">
 </p>
 
-## About Laravel
+<h1 align="center">FamilyIntegral API</h1>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p align="center">
+  API REST para gestión de salud familiar desarrollada con Laravel 11 + PHP 8.2 + MySQL 8.0
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-11.x-red?style=flat-square&logo=laravel" alt="Laravel">
+  <img src="https://img.shields.io/badge/PHP-8.2-blue?style=flat-square&logo=php" alt="PHP">
+  <img src="https://img.shields.io/badge/MySQL-8.0-orange?style=flat-square&logo=mysql" alt="MySQL">
+  <img src="https://img.shields.io/badge/Docker-ready-blue?style=flat-square&logo=docker" alt="Docker">
+  <img src="https://img.shields.io/badge/PHPStan-level%203-brightgreen?style=flat-square" alt="PHPStan">
+  <img src="https://img.shields.io/badge/tests-5%20passed-brightgreen?style=flat-square" alt="Tests">
+</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 📋 Descripción
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+FamilyIntegral es una API REST para la gestión de salud familiar que permite:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Gestión de medicamentos con recordatorios automáticos
+- Cálculo y seguimiento del IMC
+- Tests de salud (estrés, depresión, apnea del sueño, podómetro)
+- Gestión de miembros familiares
+- Chats con profesionales de salud
+- Visitas domiciliarias
+- Calendario del ciclo menstrual
+- Integración con Google Calendar
+- Consultas a OpenFDA
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🛠️ Stack Tecnológico
 
-### Premium Partners
+| Tecnología | Versión | Uso |
+|---|---|---|
+| Laravel | 11.x | Framework backend |
+| PHP | 8.2 | Lenguaje del servidor |
+| MySQL | 8.0 | Base de datos |
+| Docker | Latest | Contenedores |
+| Laravel Sanctum | 4.x | Autenticación por tokens |
+| Laravel Pint | 1.27.0 | Formatter de código |
+| PHPStan | 2.1.x | Análisis estático |
+| PHP_CodeSniffer | 4.0.x | Linter PSR-12 |
+| Apache JMeter | 5.6.3 | Pruebas de rendimiento |
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🚀 Instalación con Docker
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Requisitos
+- Docker Desktop instalado y corriendo
+- Git
 
-## Code of Conduct
+### Pasos
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**1. Clonar el repositorio:**
+```bash
+git clone https://github.com/tu-usuario/family-integral-back.git
+cd family-integral-back
+```
 
-## Security Vulnerabilities
+**2. Configurar el ambiente Docker:**
+```bash
+Copy-Item .env.docker .env
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**3. Levantar los contenedores:**
+```bash
+docker compose up -d
+```
 
-## License
+**4. Correr migraciones y seeders:**
+```bash
+docker compose exec app php artisan migrate
+docker compose exec app php artisan db:seed --class=RoleSeeder
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**5. Verificar que todo funciona:**
+```bash
+curl http://localhost:8000/api/test
+```
+
+### Servicios disponibles
+
+| Servicio | URL |
+|---|---|
+| API REST | http://localhost:8000/api |
+| phpMyAdmin | http://localhost:8080 |
+
+> **Usuario MySQL:** root | **Contraseña:** (vacía)
+
+---
+
+## 🌐 Endpoints Principales
+
+| Método | Endpoint | Descripción |
+|---|---|---|
+| POST | `/api/auth/register` | Registro de usuario |
+| POST | `/api/auth/login` | Inicio de sesión |
+| GET | `/api/auth/me` | Perfil del usuario |
+| POST | `/api/auth/logout` | Cerrar sesión |
+| GET | `/api/medicamentos` | Listar medicamentos |
+| POST | `/api/medicamentos` | Crear medicamento |
+| GET | `/api/recordatorios/hoy` | Recordatorios del día |
+| POST | `/api/imc` | Registrar IMC |
+| POST | `/api/tests-salud` | Realizar test de salud |
+| GET | `/api/visitas-domiciliarias` | Listar visitas |
+| GET | `/api/openfda/medicamento?nombre=` | Buscar medicamento |
+
+Ver todas las rutas:
+```bash
+docker compose exec app php artisan route:list
+```
+
+---
+
+## 🧪 Pruebas
+
+### Pruebas Unitarias (PHPUnit)
+```bash
+docker compose exec -e DB_DATABASE=family_integral_test app php artisan test --filter AuthTest
+```
+
+Resultado esperado:
+```
+✓ registro exitoso de usuario
+✓ login con credenciales validas
+✓ login con password incorrecto
+✓ registro con email duplicado
+✓ login con membresia inactiva
+
+Tests: 5 passed (14 assertions)
+```
+
+### Pruebas de Rendimiento (JMeter)
+```bash
+# Limpiar resultados anteriores
+Remove-Item -Recurse -Force jmeter\results\report
+Remove-Item -Force jmeter\results\results.jtl
+
+# Correr pruebas
+docker run --rm --network family-integral-back_family_network -v ${PWD}/jmeter:/jmeter justb4/jmeter -n -t /jmeter/plan.jmx -l /jmeter/results/results.jtl -e -o /jmeter/results/report
+```
+
+Resultados obtenidos:
+```
+Peticiones: 5 | Promedio: 65ms | Mínimo: 49ms | Máximo: 124ms | Errores: 0%
+```
+
+El reporte HTML se genera en `jmeter/results/report/index.html`.
+
+---
+
+## ✅ Calidad de Código
+
+### Laravel Pint (Formatter)
+```bash
+docker compose exec app ./vendor/bin/pint
+```
+
+### PHP_CodeSniffer (Linter PSR-12)
+```bash
+docker compose exec app ./vendor/bin/phpcs
+```
+
+### PHPStan (Análisis estático nivel 3)
+```bash
+docker compose exec app ./vendor/bin/phpstan analyse --memory-limit=512M
+```
+
+---
+
+## 🔄 Cambiar entre ambientes
+
+### Docker → XAMPP
+```bash
+docker compose down
+Copy-Item .env.xampp .env
+# Iniciar XAMPP Apache + MySQL
+```
+
+### XAMPP → Docker
+```bash
+Copy-Item .env.docker .env
+docker compose up -d
+```
+
+> ⚠️ Nunca correr XAMPP y Docker simultáneamente (conflicto puerto 3306)
+
+---
+
+## 📁 Estructura del Proyecto
+```
+family-integral-back/
+├── app/Http/Controllers/Api/   # 11 controladores
+├── app/Models/                 # 13 modelos
+├── database/migrations/        # 15 migraciones
+├── database/seeders/           # RoleSeeder
+├── jmeter/                     # Plan de pruebas JMeter
+│   ├── plan.jmx
+│   └── results/
+├── tests/Feature/              # Pruebas unitarias
+│   └── AuthTest.php
+├── .env.docker                 # Config Docker
+├── .env.xampp                  # Config XAMPP
+├── Dockerfile
+├── docker-compose.yml
+├── docker-entrypoint.sh
+├── pint.json                   # Config Laravel Pint
+├── phpstan.neon                # Config PHPStan
+└── phpcs.xml                   # Config CodeSniffer
+```
+
+---
+
+## 📄 Licencia
+
+Este proyecto es desarrollado como parte del proyecto integrador de la carrera de Ingeniería en Desarrollo y Gestión de Software — UTRM / BIS Universities.

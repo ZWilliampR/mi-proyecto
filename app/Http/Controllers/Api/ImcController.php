@@ -60,9 +60,8 @@ class ImcController extends Controller
                 'message' => 'IMC calculado exitosamente',
                 'registro' => $registro,
             ], 201);
-
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al calcular IMC: '.$e->getMessage()], 500);
+            return response()->json(['error' => 'Error al calcular IMC: ' . $e->getMessage()], 500);
         }
     }
 
@@ -107,7 +106,6 @@ class ImcController extends Controller
                 'ultima_clasificacion' => $ultimoRegistro ? $ultimoRegistro->clasificacion : null,
                 'historial' => $registros,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al obtener historial'], 500);
         }

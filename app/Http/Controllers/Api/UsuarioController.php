@@ -84,7 +84,6 @@ class UsuarioController extends Controller
                 'message' => 'Miembro familiar agregado exitosamente',
                 'miembro' => $miembro,
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al agregar miembro',
@@ -108,7 +107,6 @@ class UsuarioController extends Controller
                 'disponibles' => 3 - $miembros->count(),
                 'miembros' => $miembros,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al obtener miembros',
@@ -143,7 +141,6 @@ class UsuarioController extends Controller
                 'message' => 'Usuario actualizado exitosamente',
                 'usuario' => $usuario,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al actualizar usuario'], 500);
         }
@@ -164,7 +161,6 @@ class UsuarioController extends Controller
             $usuario->delete();
 
             return response()->json(['message' => 'Miembro familiar eliminado exitosamente'], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al eliminar miembro'], 500);
         }

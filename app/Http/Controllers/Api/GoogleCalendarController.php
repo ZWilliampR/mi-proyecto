@@ -13,7 +13,7 @@ class GoogleCalendarController extends Controller
 {
     private function getClient()
     {
-        $client = new GoogleClient;
+        $client = new GoogleClient();
         $client->setClientId(env('GOOGLE_CLIENT_ID'));
         $client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
         $client->setRedirectUri(env('GOOGLE_REDIRECT_URI'));
@@ -63,7 +63,6 @@ class GoogleCalendarController extends Controller
                 ],
                 'instrucciones' => 'Llama a POST /api/google/save-tokens con estos tokens y tu Bearer token de autenticación',
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al conectar con Google Calendar',
@@ -92,7 +91,6 @@ class GoogleCalendarController extends Controller
                 'message' => 'Tokens guardados exitosamente. Ahora puedes crear eventos en Google Calendar.',
                 'user' => $usuario,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al guardar tokens',
@@ -165,7 +163,6 @@ class GoogleCalendarController extends Controller
                     'titulo' => $event->getSummary(),
                 ],
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al crear evento',
@@ -227,7 +224,6 @@ class GoogleCalendarController extends Controller
                 'total' => count($eventList),
                 'eventos' => $eventList,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al obtener eventos',
@@ -249,7 +245,6 @@ class GoogleCalendarController extends Controller
             ]);
 
             return response()->json(['message' => 'Google Calendar desconectado exitosamente'], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al desconectar'], 500);
         }

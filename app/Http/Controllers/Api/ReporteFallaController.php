@@ -73,9 +73,8 @@ class ReporteFallaController extends Controller
                 'message' => 'Reporte creado exitosamente. Nuestro equipo lo revisará pronto.',
                 'reporte' => $reporte,
             ], 201);
-
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear reporte: '.$e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear reporte: ' . $e->getMessage()], 500);
         }
     }
 
@@ -126,7 +125,6 @@ class ReporteFallaController extends Controller
                 'message' => 'Estado del reporte actualizado exitosamente',
                 'reporte' => $reporte,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al actualizar reporte'], 500);
         }
@@ -166,7 +164,6 @@ class ReporteFallaController extends Controller
                 'por_tipo' => $porTipo,
                 'por_prioridad' => $porPrioridad,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al obtener estadísticas'], 500);
         }

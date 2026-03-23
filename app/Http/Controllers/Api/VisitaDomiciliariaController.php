@@ -79,9 +79,8 @@ class VisitaDomiciliariaController extends Controller
                 'message' => 'Solicitud de visita domiciliaria creada exitosamente',
                 'visita' => $visita,
             ], 201);
-
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear solicitud: '.$e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear solicitud: ' . $e->getMessage()], 500);
         }
     }
 
@@ -126,7 +125,6 @@ class VisitaDomiciliariaController extends Controller
                 'message' => 'Visita confirmada exitosamente',
                 'visita' => $visita->load('medico'),
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al confirmar visita'], 500);
         }
@@ -167,7 +165,6 @@ class VisitaDomiciliariaController extends Controller
                 'message' => 'Estado de la visita actualizado exitosamente',
                 'visita' => $visita,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al actualizar estado'], 500);
         }
@@ -196,7 +193,6 @@ class VisitaDomiciliariaController extends Controller
                 'message' => 'Visita cancelada exitosamente',
                 'visita' => $visita,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al cancelar visita'], 500);
         }

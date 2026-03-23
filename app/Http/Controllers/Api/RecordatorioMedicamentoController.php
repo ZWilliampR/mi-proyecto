@@ -75,7 +75,6 @@ class RecordatorioMedicamentoController extends Controller
                 'message' => 'Medicamento marcado como tomado',
                 'recordatorio' => $recordatorio,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al actualizar recordatorio'], 500);
         }
@@ -96,7 +95,6 @@ class RecordatorioMedicamentoController extends Controller
                 'message' => 'Medicamento marcado como omitido',
                 'recordatorio' => $recordatorio,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al actualizar recordatorio'], 500);
         }

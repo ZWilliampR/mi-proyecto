@@ -155,5 +155,4 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/interacciones', [App\Http\Controllers\Api\OpenFdaController::class, 'verificarInteracciones']);
         Route::get('/eventos-adversos', [App\Http\Controllers\Api\OpenFdaController::class, 'eventosAdversos']);
     });
-
 });

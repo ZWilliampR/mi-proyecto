@@ -67,7 +67,6 @@ class MedicamentoController extends Controller
                 'message' => 'Medicamento creado exitosamente',
                 'medicamento' => $medicamento->load('recordatorios'),
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al crear medicamento',
@@ -112,7 +111,6 @@ class MedicamentoController extends Controller
                 'message' => 'Medicamento actualizado exitosamente',
                 'medicamento' => $medicamento,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al actualizar medicamento'], 500);
         }

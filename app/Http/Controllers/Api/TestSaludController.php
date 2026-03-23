@@ -56,9 +56,8 @@ class TestSaludController extends Controller
                 'message' => 'Test completado exitosamente',
                 'test' => $test,
             ], 201);
-
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al guardar test: '.$e->getMessage()], 500);
+            return response()->json(['error' => 'Error al guardar test: ' . $e->getMessage()], 500);
         }
     }
 
@@ -88,7 +87,6 @@ class TestSaludController extends Controller
                 'total' => $tests->count(),
                 'tests' => $tests,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al obtener tests'], 500);
         }
