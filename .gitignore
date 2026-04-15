@@ -3,6 +3,7 @@
 .env
 .env.backup
 .env.production
+.env*
 .phpactor.json
 .phpunit.result.cache
 /.fleet
@@ -22,6 +23,7 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
 
 # Ambientes
 .env.docker
