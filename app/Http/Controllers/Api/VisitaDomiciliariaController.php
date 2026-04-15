@@ -80,7 +80,7 @@ class VisitaDomiciliariaController extends Controller
                 'visita' => $visita,
             ], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear solicitud: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear solicitud: '.$e->getMessage()], 500);
         }
     }
 

@@ -56,7 +56,7 @@ class AuthController extends Controller
                 'token' => $token,
             ], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al registrar usuario: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al registrar usuario: '.$e->getMessage()], 500);
         }
     }
 

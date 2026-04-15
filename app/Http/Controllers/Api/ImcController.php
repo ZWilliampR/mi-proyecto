@@ -61,7 +61,7 @@ class ImcController extends Controller
                 'registro' => $registro,
             ], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al calcular IMC: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al calcular IMC: '.$e->getMessage()], 500);
         }
     }
 

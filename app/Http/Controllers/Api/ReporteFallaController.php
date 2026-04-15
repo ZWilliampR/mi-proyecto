@@ -74,7 +74,7 @@ class ReporteFallaController extends Controller
                 'reporte' => $reporte,
             ], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear reporte: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear reporte: '.$e->getMessage()], 500);
         }
     }
 

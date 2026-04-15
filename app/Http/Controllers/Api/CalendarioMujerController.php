@@ -66,7 +66,7 @@ class CalendarioMujerController extends Controller
                 'registro' => $registro,
             ], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear registro: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear registro: '.$e->getMessage()], 500);
         }
     }
 

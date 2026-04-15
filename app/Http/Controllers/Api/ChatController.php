@@ -58,7 +58,7 @@ class ChatController extends Controller
                 'chat' => $chat->load('mensajes'),
             ], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear chat: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear chat: '.$e->getMessage()], 500);
         }
     }
 

@@ -13,7 +13,7 @@ class GoogleCalendarController extends Controller
 {
     private function getClient()
     {
-        $client = new GoogleClient();
+        $client = new GoogleClient;
         $client->setClientId(env('GOOGLE_CLIENT_ID'));
         $client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
         $client->setRedirectUri(env('GOOGLE_REDIRECT_URI'));

@@ -21,7 +21,7 @@ class OpenFdaController extends Controller
             }
 
             $response = Http::get("{$this->baseUrl}/label.json", [
-                'search' => 'openfda.brand_name:"' . $nombreMedicamento . '" OR openfda.generic_name:"' . $nombreMedicamento . '"',
+                'search' => 'openfda.brand_name:"'.$nombreMedicamento.'" OR openfda.generic_name:"'.$nombreMedicamento.'"',
                 'limit' => 1,
             ]);
 
@@ -81,7 +81,7 @@ class OpenFdaController extends Controller
 
             foreach ($medicamentos as $medicamento) {
                 $response = Http::get("{$this->baseUrl}/label.json", [
-                    'search' => 'openfda.brand_name:"' . $medicamento . '"',
+                    'search' => 'openfda.brand_name:"'.$medicamento.'"',
                     'limit' => 1,
                 ]);
 
@@ -121,7 +121,7 @@ class OpenFdaController extends Controller
             }
 
             $response = Http::get("{$this->baseUrl}/event.json", [
-                'search' => 'patient.drug.openfda.brand_name:"' . $nombreMedicamento . '"',
+                'search' => 'patient.drug.openfda.brand_name:"'.$nombreMedicamento.'"',
                 'limit' => 10,
             ]);
 
