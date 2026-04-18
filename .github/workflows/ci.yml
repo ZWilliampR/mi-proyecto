@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+<<<<<<< HEAD
       - name: Clonar repositorio
         uses: actions/checkout@v4
 
@@ -56,6 +57,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Usar Node.js
+=======
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+>>>>>>> d0df4acee48dd3995948860ff0335a745759599a
         uses: actions/setup-node@v4
         with:
           node-version: 18
