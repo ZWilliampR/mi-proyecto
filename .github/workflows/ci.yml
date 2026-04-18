@@ -2,9 +2,9 @@ name: CI - Family Integral
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, Pruebas/Glovales]
   pull_request:
-    branches: [main, develop]
+    branches: [main, develop, Pruebas/Glovales]
 
 jobs:
 
