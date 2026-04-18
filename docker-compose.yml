@@ -1,8 +1,7 @@
+version: "3.9"
+
 services:
 
-  # ----------------------------------------------------------
-  # APP — Laravel 11 con PHP 8.2 + Apache
-  # ----------------------------------------------------------
   app:
     build:
       context: .
@@ -13,34 +12,30 @@ services:
       - "8000:80"
     environment:
       APP_NAME: FamilyIntegralAPI
-      APP_ENV: local
+      APP_ENV: production
       APP_KEY: base64:3jihBRPNcepkZ46+4fb3+vHjK8VlNkVPSeuOkZQTi2U=
-      APP_DEBUG: "true"
-      APP_URL: http://localhost:8000
+      APP_DEBUG: "false"
+      APP_URL: http://100.53.118.174:8000
       APP_TIMEZONE: America/Cancun
       APP_LOCALE: es
+
       DB_CONNECTION: mysql
       DB_HOST: db
       DB_PORT: 3306
       DB_DATABASE: family_integral
       DB_USERNAME: root
       DB_PASSWORD: ""
+
       SESSION_DRIVER: file
       CACHE_STORE: file
       QUEUE_CONNECTION: sync
-    volumes:
-      - .:/var/www/html
-      - /var/www/html/vendor
-      - storage_data:/var/www/html/storage
+
     depends_on:
       db:
         condition: service_healthy
     networks:
       - family_network
 
-  # ----------------------------------------------------------
-  # DB — MySQL 8.0
-  # ----------------------------------------------------------
   db:
     image: mysql:8.0
     container_name: family_integral_db
@@ -61,9 +56,6 @@ services:
     networks:
       - family_network
 
-  # ----------------------------------------------------------
-  # PHPMYADMIN
-  # ----------------------------------------------------------
   phpmyadmin:
     image: phpmyadmin:latest
     container_name: family_integral_pma
@@ -80,16 +72,9 @@ services:
     networks:
       - family_network
 
-# ----------------------------------------------------------
-# VOLÚMENES
-# ----------------------------------------------------------
 volumes:
   mysql_data:
-  storage_data:
 
-# ----------------------------------------------------------
-# REDES
-# ----------------------------------------------------------
 networks:
   family_network:
     driver: bridge

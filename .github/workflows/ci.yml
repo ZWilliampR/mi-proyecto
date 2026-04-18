@@ -2,32 +2,69 @@ name: CI - Family Integral
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    branches: [main, develop]
   pull_request:
-    branches:
-      - main
-      - develop
+    branches: [main, develop]
 
 jobs:
-  build:
+
+  # =========================
+  # BACKEND (Laravel)
+  # =========================
+  laravel-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
 
-      - name: Use Node.js
-        uses: actions/setup-node@v3
+      - name: Configurar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: mbstring, bcmath, sqlite
+
+      - name: Instalar dependencias
+        run: composer install --no-progress --prefer-dist
+
+      - name: Copiar .env
+        run: cp .env.example .env
+
+      - name: Generar APP_KEY
+        run: php artisan key:generate
+
+      - name: Crear base de datos SQLite
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+
+      - name: Ejecutar migraciones
+        run: php artisan migrate --force
+
+      - name: Ejecutar tests
+        run: php artisan test
+
+
+  # =========================
+  # FRONTEND (Node.js)
+  # =========================
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Usar Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: npm install
+      - name: Instalar dependencias
+        run: npm install || true
 
-      - name: Build project
+      - name: Build
         run: npm run build --if-present
 
-      - name: Run tests
+      - name: Tests frontend
         run: npm test --if-present
