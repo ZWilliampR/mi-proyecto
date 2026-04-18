@@ -27,23 +27,28 @@ jobs:
       - name: Instalar dependencias
         run: composer install --no-progress --prefer-dist
 
-      - name: Configurar entorno (.env)
-        run: |
-          cp .env.example .env
-          php artisan key:generate
-          sed -i 's/DB_CONNECTION=.*/DB_CONNECTION=sqlite/' .env
-          sed -i 's/DB_DATABASE=.*/DB_DATABASE=database\/database.sqlite/' .env
-
       - name: Crear base de datos SQLite
         run: |
           mkdir -p database
           touch database/database.sqlite
+
+      - name: Configurar entorno (.env)
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+          echo "DB_CONNECTION=sqlite" >> .env
+          echo "DB_DATABASE=$(pwd)/database/database.sqlite" >> .env
+
+          php artisan config:clear
+          php artisan cache:clear
 
       - name: Ejecutar migraciones
         run: php artisan migrate --force
 
       - name: Ejecutar tests
         run: php artisan test
+
 
   # =========================
   # FRONTEND (Node.js)
