@@ -25,7 +25,7 @@ FamilyIntegral es una API REST para la gestión de salud familiar que permite:
 
 - Gestión de medicamentos con recordatorios automáticos
 - Cálculo y seguimiento del IMC
-- Tests de salud (estrés, depresión, apnea del sueño, podómetro)
+- Tests de salud
 - Gestión de miembros familiares
 - Chats con profesionales de salud
 - Visitas domiciliarias
@@ -39,186 +39,120 @@ FamilyIntegral es una API REST para la gestión de salud familiar que permite:
 
 | Tecnología | Versión | Uso |
 |---|---|---|
-| Laravel | 11.x | Framework backend |
-| PHP | 8.2 | Lenguaje del servidor |
+| Laravel | 11.x | Backend |
+| PHP | 8.2 | Lenguaje |
 | MySQL | 8.0 | Base de datos |
 | Docker | Latest | Contenedores |
-| Laravel Sanctum | 4.x | Autenticación por tokens |
-| Laravel Pint | 1.27.0 | Formatter de código |
-| PHPStan | 2.1.x | Análisis estático |
-| PHP_CodeSniffer | 4.0.x | Linter PSR-12 |
-| Apache JMeter | 5.6.3 | Pruebas de rendimiento |
+| GitHub Actions | Latest | CI/CD |
+| AWS EC2 | - | Despliegue |
+| Postman | - | Pruebas |
+
+---
+
+## 🌍 Ambientes
+
+| Ambiente | Propósito | URL |
+|---|---|---|
+| Desarrollo | Local | http://localhost:8000 |
+| QA | Docker | Local |
+| Producción | AWS EC2 | http://IP_PUBLICA/api |
 
 ---
 
 ## 🚀 Instalación con Docker
 
 ### Requisitos
-- Docker Desktop instalado y corriendo
+- Docker Desktop
 - Git
 
 ### Pasos
 
-**1. Clonar el repositorio:**
-```bash
-git clone https://github.com/tu-usuario/family-integral-back.git
+- git clone https://github.com/tu-usuario/family-integral-back.git
+- cd family-integral-back
+- cp .env.docker .env
+- docker compose up -d
+- docker compose exec app php artisan migrate
+
+
+##    🔄 Pipeline CI/CD
+
+Se implementó integración continua con GitHub Actions.
+
+Etapas:
+Checkout del código
+Instalación de dependencias
+Configuración del entorno
+Migraciones
+Ejecución de pruebas
+Triggers:
+push a main y develop
+pull requests
+
+Archivo:
+
+.github/workflows/ci.yml
+
+##    🚀 Despliegue en AWS
+
+El proyecto está desplegado en una instancia EC2 con Ubuntu.
+
+Proceso:
+ssh ubuntu@IP_PUBLICA
 cd family-integral-back
-```
-
-**2. Configurar el ambiente Docker:**
-```bash
-Copy-Item .env.docker .env
-```
-
-**3. Levantar los contenedores:**
-```bash
 docker compose up -d
-```
+docker ps
 
-**4. Correr migraciones y seeders:**
-```bash
-docker compose exec app php artisan migrate
-docker compose exec app php artisan db:seed --class=RoleSeeder
-```
+##    🌐 Verificación
 
-**5. Verificar que todo funciona:**
-```bash
-curl http://localhost:8000/api/test
-```
+Abrir en navegador:
 
-### Servicios disponibles
+http://IP_PUBLICA/api/test
 
-| Servicio | URL |
-|---|---|
-| API REST | http://localhost:8000/api |
-| phpMyAdmin | http://localhost:8080 |
+##    🧪 Pruebas
+Pruebas unitarias
+php artisan test
+Pruebas manuales
 
-> **Usuario MySQL:** root | **Contraseña:** (vacía)
+Se validaron endpoints con Postman:
 
----
+/api/auth/register
+/api/auth/login
+/api/test
+⚠️ Nota sobre pruebas
 
-## 🌐 Endpoints Principales
+Algunas pruebas pueden fallar en CI debido a diferencias entre MySQL (local) y SQLite (pipeline).
 
-| Método | Endpoint | Descripción |
-|---|---|---|
-| POST | `/api/auth/register` | Registro de usuario |
-| POST | `/api/auth/login` | Inicio de sesión |
-| GET | `/api/auth/me` | Perfil del usuario |
-| POST | `/api/auth/logout` | Cerrar sesión |
-| GET | `/api/medicamentos` | Listar medicamentos |
-| POST | `/api/medicamentos` | Crear medicamento |
-| GET | `/api/recordatorios/hoy` | Recordatorios del día |
-| POST | `/api/imc` | Registrar IMC |
-| POST | `/api/tests-salud` | Realizar test de salud |
-| GET | `/api/visitas-domiciliarias` | Listar visitas |
-| GET | `/api/openfda/medicamento?nombre=` | Buscar medicamento |
+##    📊 Monitoreo
+Logs en storage/logs
+Endpoint de salud:
+GET /api/test
 
-Ver todas las rutas:
-```bash
-docker compose exec app php artisan route:list
-```
+##    🔄 Estrategia de Despliegue
 
----
+Recreate Deployment
 
-## 🧪 Pruebas
+Se detiene la versión actual
+Se levanta una nueva con Docker
 
-### Pruebas Unitarias (PHPUnit)
-```bash
-docker compose exec -e DB_DATABASE=family_integral_test app php artisan test --filter AuthTest
-```
+##    📁 Estructura del Proyecto
+- .github/workflows/
+- app/
+- tests/
+- docker-compose.yml
+- .env.example
+- README.md
 
-Resultado esperado:
-```
-✓ registro exitoso de usuario
-✓ login con credenciales validas
-✓ login con password incorrecto
-✓ registro con email duplicado
-✓ login con membresia inactiva
+##    🧠 Conclusión
 
-Tests: 5 passed (14 assertions)
-```
+El proyecto implementa:
 
-### Pruebas de Rendimiento (JMeter)
-```bash
-# Limpiar resultados anteriores
-Remove-Item -Recurse -Force jmeter\results\report
-Remove-Item -Force jmeter\results\results.jtl
+- CI/CD con GitHub Actions
+- Despliegue en AWS
+- Contenedores Docker
+- Pruebas automatizadas y manuales
+- Backend funcional
 
-# Correr pruebas
-docker run --rm --network family-integral-back_family_network -v ${PWD}/jmeter:/jmeter justb4/jmeter -n -t /jmeter/plan.jmx -l /jmeter/results/results.jtl -e -o /jmeter/results/report
-```
 
-Resultados obtenidos:
-```
-Peticiones: 5 | Promedio: 65ms | Mínimo: 49ms | Máximo: 124ms | Errores: 0%
-```
+##    📄 Licencia
 
-El reporte HTML se genera en `jmeter/results/report/index.html`.
-
----
-
-## ✅ Calidad de Código
-
-### Laravel Pint (Formatter)
-```bash
-docker compose exec app ./vendor/bin/pint
-```
-
-### PHP_CodeSniffer (Linter PSR-12)
-```bash
-docker compose exec app ./vendor/bin/phpcs
-```
-
-### PHPStan (Análisis estático nivel 3)
-```bash
-docker compose exec app ./vendor/bin/phpstan analyse --memory-limit=512M
-```
-
----
-
-## 🔄 Cambiar entre ambientes
-
-### Docker → XAMPP
-```bash
-docker compose down
-Copy-Item .env.xampp .env
-# Iniciar XAMPP Apache + MySQL
-```
-
-### XAMPP → Docker
-```bash
-Copy-Item .env.docker .env
-docker compose up -d
-```
-
-> ⚠️ Nunca correr XAMPP y Docker simultáneamente (conflicto puerto 3306)
-
----
-
-## 📁 Estructura del Proyecto
-```
-family-integral-back/
-├── app/Http/Controllers/Api/   # 11 controladores
-├── app/Models/                 # 13 modelos
-├── database/migrations/        # 15 migraciones
-├── database/seeders/           # RoleSeeder
-├── jmeter/                     # Plan de pruebas JMeter
-│   ├── plan.jmx
-│   └── results/
-├── tests/Feature/              # Pruebas unitarias
-│   └── AuthTest.php
-├── .env.docker                 # Config Docker
-├── .env.xampp                  # Config XAMPP
-├── Dockerfile
-├── docker-compose.yml
-├── docker-entrypoint.sh
-├── pint.json                   # Config Laravel Pint
-├── phpstan.neon                # Config PHPStan
-└── phpcs.xml                   # Config CodeSniffer
-```
-
----
-
-## 📄 Licencia
-
-Este proyecto es desarrollado como parte del proyecto integrador de la carrera de Ingeniería en Desarrollo y Gestión de Software — UTRM / BIS Universities.
+Proyecto académico — Ingeniería en Desarrollo y Gestión de Software.
